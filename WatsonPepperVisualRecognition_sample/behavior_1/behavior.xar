@@ -382,6 +382,7 @@ class MyClass(GeneratedClass):
         return "http://%s/apps/%s" %(self._getTabletService().robotIp(), subPath.replace(os.path.sep, "/"))
 
     def onInput_onStart(self):
+        from datetime import datetime
         # We create TabletService here in order to avoid
         # problems with connections and disconnections of the tablet during the life of the application
         tabletService = self._getTabletService()
@@ -392,6 +393,7 @@ class MyClass(GeneratedClass):
                     self.logger.error("URL of the image is empty")
                 if not url.startswith('http'):
                     url = self._getAbsoluteUrl(url)
+                    url = url + "?" + datetime.now().strftime('%s')
                 tabletService.showImage(url)
             except Exception as err:
                 self.logger.error("Error during ShowImage : %s " % err)
